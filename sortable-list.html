@@ -1,0 +1,106 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+# sortable-list
+`<sortable-list>`
+Polymer 1.X and 2.X custom element for drag-and-drop reorder of items.
+
+For typical use just wrap your dom-repeat template item with a `<sortable-list>`
+element to get drag-and-drop reordering.
+
+Relies on
+[HTML 5 drag and drop](https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API)
+support, so if you need to support older browsers
+which do not support HTML 5 drag and drop events then we suggest using a polyfill:
+
+https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="sortable-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <slot></slot>
+  </template>
+
+  <script>
+    function getIndex(node) {
+      var children = node.parentNode.children;
+      return [].indexOf.call(children, node);
+    }
+
+    function dragstart(evt) {
+      var index = getIndex(this);
+      evt.dataTransfer.effectAllowed = "move";
+      evt.dataTransfer.setData("index", index);
+    }
+
+    function dragover(evt) {
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = "move";
+    }
+
+    function handledrop(evt) {
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = "move";
+
+      var current = Number(getIndex(evt.target));
+      var move = Number(evt.dataTransfer.getData("index"));
+
+      // set the underlying Array model new order
+      if (move !== current) {
+
+        var userTemplate = this.querySelector("template[is='dom-repeat']");
+
+        var data = userTemplate.items;
+        var item = data.splice(move, 1);
+        data.splice(current, null, item[0]);
+
+        userTemplate.notifySplices('items', [
+          { index: move, removed: [item], addedCount: 0, object: data, type: "splice" },
+          { index: current, removed: [], addedCount: 1, object: data, type: "splice" }
+        ]);
+      }
+    }
+
+    Polymer({
+
+      is: 'sortable-list',
+
+      _addlisteners: function() {
+        var self = this;
+        var nodes = this.getEffectiveChildren();
+
+        nodes.forEach(function(item) {
+          if (!item.getAttribute('draggable')) {
+            item.setAttribute('draggable', true);
+            item.addEventListener('dragstart', dragstart, false);
+            item.addEventListener('dragover', dragover, false);
+          }
+        });
+      },
+
+      attached: function() {
+        var self = this;
+
+        this.async(function() {
+          self.addEventListener('drop', handledrop, false);
+
+          var template = this.querySelector("template[is='dom-repeat']");
+
+          template.addEventListener('dom-change', function() {
+            self._addlisteners();
+          });
+
+          self._addlisteners();
+        });
+      }
+    });
+  </script>
+</dom-module>

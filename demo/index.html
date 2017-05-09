@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>sortable-list demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../sortable-list.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Sortable-list demo</h3>
+      <demo-snippet>
+        <template>
+          <sortable-list>
+            <template is="dom-repeat" items='["item 1","item 2","item 3","item 4"]'>
+              <div style="height:30px;cursor:pointer;">[[item]]</div>
+            </template>
+          </sortable-list>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Sortable-list with list items</h3>
+      <demo-snippet>
+        <template>
+          <ul>
+            <sortable-list>
+              <template is="dom-repeat" items='["item 1","item 2","item 3","item 4"]'>
+                <li style="height:30px;cursor:pointer;">[[item]]</li>
+              </template>
+            </sortable-list>
+          </ul>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>
