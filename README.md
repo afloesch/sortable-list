@@ -12,17 +12,20 @@ which do not support HTML 5 drag and drop events then we suggest using a polyfil
 
 https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
 
+## Install
+
+```shell
+bower install --save polymer-sortable-list
+```
+
 ## Usage
 
 <!--
 ```
 <custom-element-demo height="200">
   <template>
-    <sortable-list>
-      <template is="dom-repeat" items='["item 1","item 2","item 3","item 4"]'>
-        <div style="height:30px;cursor:pointer;">[[item]]</div>
-      </template>
-    </sortable-list>
+    <link rel="import" href="sortable-list.html">
+    <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
 ```
