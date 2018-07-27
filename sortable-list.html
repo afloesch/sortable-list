@@ -25,6 +25,9 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
       :host {
         display: block;
       }
+      :host ::slotted(*) {
+        @apply --sortable-list-item;
+      }
     </style>
     <slot></slot>
   </template>
@@ -50,19 +53,29 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
       evt.preventDefault();
       evt.dataTransfer.dropEffect = "move";
 
-      var current = Number(getIndex(evt.target));
+      // Move up the dom tree until you find the direct child of SORTABLE-LIST
+      var target = evt.target;
+      while(target.parentNode.tagName !== 'SORTABLE-LIST') {
+        target = target.parentNode;
+      }
+
+      var current = Number(getIndex(target));
       var move = Number(evt.dataTransfer.getData("index"));
 
       // set the underlying Array model new order
       if (move !== current) {
+        var repeat;
+        if(Polymer.Element){
+          // 2.x
+          repeat = this.querySelector('dom-repeat');
+        }else {
+          repeat = this.querySelector("template[is='dom-repeat']");
+        }
 
-        var userTemplate = this.querySelector("template[is='dom-repeat']");
-
-        var data = userTemplate.items;
+        var data = repeat.items;
         var item = data.splice(move, 1);
         data.splice(current, null, item[0]);
-
-        userTemplate.notifySplices('items', [
+        repeat.notifySplices('items', [
           { index: move, removed: [item], addedCount: 0, object: data, type: "splice" },
           { index: current, removed: [], addedCount: 1, object: data, type: "splice" }
         ]);
@@ -91,10 +104,15 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
 
         this.async(function() {
           self.addEventListener('drop', handledrop, false);
+          var repeat;
 
-          var template = this.querySelector("template[is='dom-repeat']");
-
-          template.addEventListener('dom-change', function() {
+          if(Polymer.Element){
+            // 2.x
+            repeat = this.querySelector('dom-repeat');
+          }else {
+            repeat = this.querySelector("template[is='dom-repeat']");
+          }
+          repeat.addEventListener('dom-change', function() {
             self._addlisteners();
           });
 
