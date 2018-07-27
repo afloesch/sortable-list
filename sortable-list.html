@@ -55,7 +55,7 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
 
       // Move up the dom tree until you find the direct child of SORTABLE-LIST
       var target = evt.target;
-      while(!target.parentNode.tagName !=== 'SORTABLE-LIST') {
+      while(!target.parentNode.tagName !== 'SORTABLE-LIST') {
         target = target.parentNode;
       }
 
@@ -105,12 +105,12 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
         this.async(function() {
           self.addEventListener('drop', handledrop, false);
           var repeat;
-          
+
           if(Polymer.Element){
             // 2.x
             repeat = this.querySelector('dom-repeat');
           }else {
-            repeat = this.querySelector("template[is='dom-repeat']";
+            repeat = this.querySelector("template[is='dom-repeat']");
           }
           repeat.addEventListener('dom-change', function() {
             self._addlisteners();
