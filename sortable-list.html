@@ -92,7 +92,7 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
          * Default is empty string, the entire item is draggable
          * If set handle with class=specifiedHandle is draggable instead of the entire item.
         **/
-       specifiedHandle: {
+       handleSelector: {
          type: String,
          value: ''
        },
@@ -103,8 +103,8 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
 
         nodes.forEach(function(item) {
           var handle;
-          if(this.specifiedHandle !== "") {
-            handle = item.getElementsByClassName(this.specifiedHandle)[0];
+          if(this.handleSelector !== "") {
+            handle = item.getElementsByClassName(this.handleSelector)[0];
           } else {
             handle = item;
           }
