@@ -107,7 +107,6 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
           if(this.handleSelector !== "") {
             handle = item.getElementsByClassName(this.handleSelector)[0];
           }
-          console.log('handle', handle);
           if (!item.getAttribute('draggable') && !!handle) {
             handle.setAttribute('draggable', true);
             item.addEventListener('dragstart', dragstart, false);
