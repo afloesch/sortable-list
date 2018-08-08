@@ -103,18 +103,16 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
         var nodes = this.getEffectiveChildren();
 
         nodes.forEach(function(item) {
-          var handle;
+          var handle = item;
           if(this.handleSelector !== "") {
             handle = item.getElementsByClassName(this.handleSelector)[0];
-          } else {
-            handle = item;
           }
-          if (!item.getAttribute('draggable')) {
+          if (!item.getAttribute('draggable') && !!handle) {
             handle.setAttribute('draggable', true);
             item.addEventListener('dragstart', dragstart, false);
             item.addEventListener('dragover', dragover, false);
           }
-        });
+        }.bind(this));
       },
 
       attached: function() {
