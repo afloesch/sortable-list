@@ -1,5 +1,6 @@
 {
   "name": "sortable-list",
+  "version": "1.1.0",
   "description": "Polymer 1.X and 2.X custom element for drag-and-drop reorder of items",
   "main": "sortable-list.html",
   "dependencies": {

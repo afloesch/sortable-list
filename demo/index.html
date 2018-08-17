@@ -17,29 +17,39 @@
   </head>
   <body>
     <div class="vertical-section-container centered">
-      <h3>Sortable-list demo</h3>
+      <h3>Sortable-list with spans and button wrapped in a div. Entire row is draggable.</h3>
       <demo-snippet>
         <template>
-          <sortable-list>
-            <template is="dom-repeat" items='["item 1","item 2","item 3","item 4"]'>
-              <div style="height:30px;cursor:pointer;">[[item]]</div>
-            </template>
-          </sortable-list>
+          <div>
+            <sortable-list>
+              <template is="dom-repeat" items='["item 1","item 2","item 3","item 4"]'>
+                <div class="row">
+                  <span class="handle">&vArr;</span>
+                  <span>[[item]]</span>
+                  <button>Button</button>
+                </div>
+              </template>
+            </sortable-list>
+          </div>
         </template>
       </demo-snippet>
     </div>
 
     <div class="vertical-section-container centered">
-      <h3>Sortable-list with list items</h3>
+      <h3>Sortable-list with spans and button wrapped in a div. Only handle is draggable.</h3>
       <demo-snippet>
         <template>
-          <ul>
-            <sortable-list>
+          <div>
+            <sortable-list handleSelector='handle'>
               <template is="dom-repeat" items='["item 1","item 2","item 3","item 4"]'>
-                <li style="height:30px;cursor:pointer;">[[item]]</li>
+                <div class="row">
+                  <span class="handle">&vArr;</span>
+                  <span>[[item]]</span>
+                  <button>Button</button>
+                </div>
               </template>
             </sortable-list>
-          </ul>
+          </div>
         </template>
       </demo-snippet>
     </div>
