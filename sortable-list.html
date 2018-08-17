@@ -79,6 +79,7 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
           { index: move, removed: [item], addedCount: 0, object: data, type: "splice" },
           { index: current, removed: [], addedCount: 1, object: data, type: "splice" }
         ]);
+        this.fire('sort');
       }
     }
 
@@ -86,17 +87,33 @@ https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
 
       is: 'sortable-list',
 
+      properties: {
+        /**
+         * A string to specifiy a specific drggable handle
+         * Default is empty string, the entire item is draggable
+         * If set handle with class=specifiedHandle is draggable instead of the entire item.
+        **/
+         handleSelector: {
+           type: String,
+           value: '',
+         },
+       },
+
       _addlisteners: function() {
         var self = this;
         var nodes = this.getEffectiveChildren();
 
         nodes.forEach(function(item) {
-          if (!item.getAttribute('draggable')) {
-            item.setAttribute('draggable', true);
+          var handle = item;
+          if(item.tagName !== 'DOM-REPEAT' && this.handleSelector !== "") {
+            handle = item.shadowRoot.querySelector('.'+this.handleSelector);
+          }
+          if (!item.getAttribute('draggable') && !!handle) {
+            handle.setAttribute('draggable', true);
             item.addEventListener('dragstart', dragstart, false);
             item.addEventListener('dragover', dragover, false);
           }
-        });
+        }.bind(this));
       },
 
       attached: function() {
